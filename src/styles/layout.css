@@ -1,0 +1,316 @@
+/* ===========================================================================
+   Layout & sections.
+
+   Structural rules taken from the reference study:
+   - a live number is the FIRST line, above the headline
+   - the hero is centred with a real vertical axis and generous space
+   - artefacts (the actual payload) are shown, not described
+   - entry points are a ladder of three with different costs, not one CTA
+   - asymmetry: a wide column beside a narrow one, not a centred row of equals
+   =========================================================================== */
+
+/* ── nav ─────────────────────────────────────────────────────────────── */
+.nav {
+  position: sticky; top: 0; z-index: 60;
+  background: rgba(10, 11, 14, 0.86);
+  backdrop-filter: saturate(160%) blur(12px);
+  -webkit-backdrop-filter: saturate(160%) blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 160ms var(--ease);
+}
+.nav--stuck { border-bottom-color: var(--line); }
+.nav__in { display: flex; align-items: center; gap: var(--s6); height: 62px; }
+.nav__brand {
+  display: inline-flex; align-items: center; gap: 9px;
+  color: var(--paper); text-decoration: none; flex: none;
+}
+.nav__mark { display: inline-flex; align-items: flex-end; gap: 2px; height: 15px; }
+.nav__mark i { width: 3px; background: var(--paper); border-radius: 1px; }
+.nav__mark i:nth-child(1) { height: 6px; }
+.nav__mark i:nth-child(2) { height: 11px; }
+.nav__mark i:nth-child(3) { height: 15px; background: var(--crit); }
+.nav__word { font-weight: 500; letter-spacing: -0.01em; font-size: 1rem; }
+.nav__links { display: flex; gap: var(--s5); margin-left: auto; }
+@media (max-width: 860px) { .nav__links { display: none; } }
+.nav__link {
+  color: var(--dim); text-decoration: none; font-size: 0.875rem;
+  position: relative; padding: 4px 0;
+  transition: color 140ms var(--ease);
+}
+.nav__link:hover { color: var(--paper); }
+.nav__link::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+  background: var(--paper); transform: scaleX(0); transform-origin: left;
+  transition: transform 160ms var(--ease);
+}
+.nav__link:hover::after { transform: scaleX(1); }
+
+/* ── hero ────────────────────────────────────────────────────────────── */
+.hero { padding-block: var(--s9) var(--s8); text-align: center; }
+
+/* The live line. First thing on the page, and it is a fact from the system. */
+.hero__live {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--mono); font-size: 0.75rem; color: var(--dim);
+  margin-bottom: var(--s6);
+}
+.hero__live b { color: var(--ok); font-weight: 600; }
+
+.hero h1 { max-width: 17ch; margin-inline: auto; }
+.hero h1 em { color: var(--crit); }
+
+.hero__lede { margin: var(--s5) auto 0; text-align: center; }
+
+.hero__cta {
+  display: flex; gap: var(--s3); justify-content: center;
+  flex-wrap: wrap; margin-top: var(--s6);
+}
+
+/* The token: the literal string PayPal sends. Shown, not described. */
+.hero__token {
+  margin: var(--s8) auto 0; max-width: 640px;
+  border: 1px solid var(--line); border-radius: var(--r-lg);
+  background: var(--ink-2); overflow: hidden; text-align: left;
+}
+.hero__token-bar {
+  display: flex; align-items: center; gap: var(--s2);
+  padding: 9px 14px; border-bottom: 1px solid var(--line);
+  font-family: var(--mono); font-size: 0.6875rem; color: var(--dimmer);
+}
+.hero__token-body { padding: var(--s5); }
+.hero__token-str {
+  font-family: var(--mono); font-size: clamp(1.5rem, 1.1rem + 1.5vw, 2rem);
+  color: var(--crit); letter-spacing: -0.01em; line-height: 1.2;
+}
+.hero__token-note { margin-top: var(--s4); font-size: 0.875rem; color: var(--dim); }
+
+/* ── ledger strip: live numbers, tabular ─────────────────────────────── */
+.ledger {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px; background: var(--line);
+  border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden;
+}
+.ledger__cell { background: var(--ink); padding: var(--s5) var(--s4); }
+.ledger__n {
+  font-family: var(--serif); font-size: clamp(1.9rem, 1.5rem + 1.4vw, 2.6rem);
+  line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+}
+.ledger__n--ok { color: var(--ok); }
+.ledger__n--crit { color: var(--crit); }
+.ledger__k {
+  margin-top: var(--s2); font-size: 0.75rem; color: var(--dimmer);
+  letter-spacing: 0.04em;
+}
+
+/* ── section head ────────────────────────────────────────────────────── */
+.head { max-width: 62ch; margin-bottom: var(--s7); }
+.head > * + * { margin-top: var(--s3); }
+.head--split {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--s6); align-items: end; max-width: none;
+}
+@media (max-width: 860px) { .head--split { grid-template-columns: 1fr; } }
+
+/* ── asymmetric split: wide beside narrow ─────────────────────────────── */
+.split {
+  display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: var(--s6); align-items: start;
+}
+@media (max-width: 900px) { .split { grid-template-columns: 1fr; } }
+
+.panel {
+  border: 1px solid var(--line); border-radius: var(--r-lg);
+  background: var(--ink-2); padding: var(--s5);
+}
+.panel--flat { background: transparent; }
+.panel__head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--s3); padding-bottom: var(--s3);
+  border-bottom: 1px solid var(--line); margin-bottom: var(--s4);
+}
+
+/* ── four states: the thing a commenter made us build ─────────────────── */
+.states { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line);
+          border-radius: var(--r-lg); overflow: hidden; }
+@media (min-width: 720px) { .states { grid-template-columns: 1fr 1fr; } }
+.state { background: var(--ink-2); padding: var(--s5); }
+.state__badge {
+  display: inline-block; padding: 3px 9px; border-radius: 999px;
+  font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.08em;
+  text-transform: uppercase; margin-bottom: var(--s3);
+}
+.badge-confirmed { background: rgba(95,211,164,.14); color: var(--ok); }
+.badge-unknown  { background: rgba(240,169,59,.14); color: var(--warn); }
+.badge-awaiting { background: rgba(159,150,140,.14); color: var(--dim); }
+/* Measured 3.02:1 as --dimmer on this tint — failed AA. --dim clears it
+   at 5.1:1 while still reading as the quietest of the four. */
+.badge-unres    { background: rgba(110,106,98,.14); color: var(--dim); }
+.state p { margin: 0; font-size: 0.875rem; color: var(--dim); }
+
+/* ── ladder: three rungs, different costs ─────────────────────────────── */
+.rungs { display: grid; gap: var(--s3); }
+@media (min-width: 860px) { .rungs { grid-template-columns: repeat(3, 1fr); } }
+.rung {
+  display: flex; flex-direction: column; gap: var(--s3);
+  padding: var(--s5); border: 1px solid var(--line); border-radius: var(--r-lg);
+  background: var(--ink-2); text-decoration: none; color: inherit;
+  transition: border-color 160ms var(--ease), transform 160ms var(--ease);
+}
+.rung:hover { border-color: var(--line-2); transform: translateY(-2px); }
+.rung__tag { font-family: var(--mono); font-size: 0.625rem;
+             letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmer); }
+.rung__tag--rec { color: var(--ok); }
+.rung h3 { margin-top: var(--s1); }
+.rung p { margin: 0; font-size: 0.875rem; color: var(--dim); }
+.rung__foot {
+  margin-top: auto; padding-top: var(--s3); border-top: 1px solid var(--line);
+  font-family: var(--mono); font-size: 0.75rem; color: var(--dim);
+}
+
+/* ── the event card, drawn not screenshotted ─────────────────────────── */
+.event {
+  border: 1px solid var(--line); border-left: 3px solid var(--crit);
+  border-radius: var(--r); background: var(--ink-2); overflow: hidden;
+}
+.event__bar {
+  display: flex; align-items: center; gap: var(--s3);
+  padding: 9px var(--s4); border-bottom: 1px solid var(--line);
+  font-family: var(--mono); font-size: 0.6875rem; color: var(--dimmer);
+}
+.event__body { padding: var(--s5); }
+.event__title { font-family: var(--serif); font-size: 1.375rem;
+                letter-spacing: -0.015em; margin: 0 0 var(--s3); }
+.event__impact { margin: 0 0 var(--s4); color: var(--dim); font-size: 0.9375rem; }
+.event__facts {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
+  gap: var(--s4); padding: var(--s4) 0;
+  border-block: 1px solid var(--line); margin-bottom: var(--s4);
+}
+.fact__k { display: block; font-size: 0.625rem; letter-spacing: 0.1em;
+           text-transform: uppercase; color: var(--dimmer); margin-bottom: 3px; }
+.fact__v { font-family: var(--mono); font-size: 0.8125rem; color: var(--paper); }
+.fact__v--big { font-family: var(--serif); font-size: 1.75rem; color: var(--crit);
+                letter-spacing: -0.02em; line-height: 1; }
+.event__ai {
+  padding: var(--s4); border-radius: var(--r);
+  background: rgba(244,242,237,0.03); border: 1px solid var(--line);
+  font-size: 0.875rem; color: var(--paper); margin-bottom: var(--s4);
+}
+.event__ai b { font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.08em;
+               color: var(--dimmer); display: block; margin-bottom: 5px;
+               text-transform: uppercase; font-weight: 600; }
+.event__cause {
+  padding: var(--s4); border-radius: var(--r);
+  background: rgba(240,169,59,.07); border: 1px solid rgba(240,169,59,.24);
+  font-size: 0.875rem; color: var(--warn); margin-bottom: var(--s4);
+}
+.event__cause b { font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.08em;
+                  text-transform: uppercase; display: block; margin-bottom: 4px; }
+.event__actions { margin: 0; padding-left: 20px; color: var(--dim); font-size: 0.9375rem; }
+.event__actions li { margin-bottom: var(--s2); }
+
+/* ── FAQ: the anxious questions ───────────────────────────────────────── */
+.faq { border-top: 1px solid var(--line); }
+.faq__item { border-bottom: 1px solid var(--line); }
+.faq__q {
+  width: 100%; display: flex; align-items: baseline; gap: var(--s4);
+  padding: var(--s5) 0; background: none; border: 0; cursor: pointer;
+  color: var(--paper); font-family: var(--sans); font-size: 1rem;
+  text-align: left; letter-spacing: -0.01em;
+}
+.faq__q:hover { color: var(--ok); }
+.faq__q span:first-child {
+  font-family: var(--mono); font-size: 0.75rem; color: var(--dimmer); flex: none;
+}
+.faq__a { padding: 0 0 var(--s5) 44px; color: var(--dim); font-size: 0.9375rem;
+          max-width: 68ch; }
+.faq__a p { margin: 0 0 var(--s3); }
+
+/* ── cta + footer ────────────────────────────────────────────────────── */
+.cta { border-top: 1px solid var(--line); padding-block: var(--s9); text-align: center; }
+.cta h2 { max-width: 20ch; margin-inline: auto; }
+.cta__row { display: flex; gap: var(--s3); justify-content: center;
+            flex-wrap: wrap; margin-top: var(--s6); }
+
+.foot { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s6); }
+.foot__grid {
+  display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: var(--s6);
+}
+@media (max-width: 860px) { .foot__grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .foot__grid { grid-template-columns: 1fr; } }
+.foot__h { font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase;
+           color: var(--dimmer); margin-bottom: var(--s3); }
+.foot__list { list-style: none; margin: 0; padding: 0;
+              display: flex; flex-direction: column; gap: var(--s2); }
+.foot__list a { color: var(--dim); text-decoration: none; font-size: 0.875rem; }
+.foot__list a:hover { color: var(--paper); }
+.foot__base {
+  display: flex; justify-content: space-between; gap: var(--s4); flex-wrap: wrap;
+  margin-top: var(--s7); padding-top: var(--s5); border-top: 1px solid var(--line);
+}
+
+/* ===========================================================================
+   Provenance components (appended to the forked HoldWatch layout).
+   Same token system; these are the classes sections.tsx actually uses.
+   =========================================================================== */
+
+/* the hero artefact is a log line, not a giant token */
+.hero__token-str { font-size: 0.9375rem; line-height: 1.7; color: var(--paper); }
+.hero__token { max-width: 760px; }
+
+/* ── state table ─────────────────────────────────────────────────────── */
+.tbl-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-lg); }
+.tbl { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+.tbl th {
+  text-align: left; padding: var(--s3) var(--s4);
+  font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--dimmer); font-weight: 600;
+  border-bottom: 1px solid var(--line); background: var(--ink-2);
+}
+.tbl td { padding: var(--s4); border-bottom: 1px solid var(--line); vertical-align: top; }
+.tbl tr:last-child td { border-bottom: 0; }
+.tbl td.mono { color: var(--warn); white-space: nowrap; }
+.tbl td b { color: var(--paper); font-weight: 500; }
+
+/* ── role cards ──────────────────────────────────────────────────────── */
+.cards3 { display: grid; gap: var(--s3); }
+@media (min-width: 860px) { .cards3 { grid-template-columns: repeat(3, 1fr); } }
+.card3 {
+  border: 1px solid var(--line); border-radius: var(--r-lg);
+  background: var(--ink-2); padding: var(--s5);
+}
+.card3__top { display: flex; align-items: center; justify-content: space-between;
+              gap: var(--s3); margin-bottom: var(--s3); }
+.card3 h3 { font-family: var(--serif); font-size: 1.25rem; }
+.card3 p { margin: 0; }
+
+/* ── proof grid ──────────────────────────────────────────────────────── */
+.proof-grid { display: grid; gap: 1px; background: var(--line);
+              border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
+@media (min-width: 760px) { .proof-grid { grid-template-columns: 1fr 1fr; } }
+.proof-cell { background: var(--ink); padding: var(--s5); display: flex; gap: var(--s4); align-items: baseline; }
+.proof-n { font-family: var(--serif); font-size: 2.5rem; line-height: 1; color: var(--ok); flex: none; }
+.proof-ok { color: var(--ok); font-size: 1rem; margin-left: 6px; }
+.proof-cell b { font-size: 0.9375rem; }
+
+/* ── ladder (sections.tsx uses .ladder > .rung) ──────────────────────── */
+.ladder { display: grid; gap: var(--s3); }
+@media (min-width: 860px) { .ladder { grid-template-columns: repeat(3, 1fr); } }
+.rung__top { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s3); }
+.rung p { margin: 0; }
+
+/* ── FAQ as dl ───────────────────────────────────────────────────────── */
+.faq { margin: 0; }
+.faq__item { border-bottom: 1px solid var(--line); padding-block: var(--s5); }
+.faq__item:first-child { border-top: 1px solid var(--line); }
+.faq dt { font-size: 1.0625rem; letter-spacing: -0.01em; margin-bottom: var(--s2); }
+.faq dd { margin: 0; color: var(--dim); font-size: 0.9375rem; max-width: 72ch; }
+.faq dd .mono { color: var(--warn); }
+
+/* ── footer ──────────────────────────────────────────────────────────── */
+.footer { border-top: 0; }
+.footer a { color: var(--dim); }
+.footer a:hover { color: var(--paper); }
+
+/* inline links in body copy — scoped so nav/brand/button links are untouched */
+.hero__token-note a, .small a, .faq dd a, .lede a { color: var(--ok); }

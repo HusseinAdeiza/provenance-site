@@ -1,0 +1,28 @@
+# Render blueprint for the Provenance site.
+#
+# IMPORTANT — build model differs from HoldWatch's site:
+# build.ts verifies against a RUNNING Canton stack (roles UI on 127.0.0.1:8090)
+# and a fresh proof.json. There is no public Canton deployment yet, so Render's
+# cloud builder CANNOT run the gate. Two supported paths:
+#
+#   1. LOCAL BUILD, COMMITTED DIST (current, honest): run `npm run build`
+#      against the local stack, commit dist/, and serve it as prebuilt static.
+#      The gate still ran — at build time on the machine where the ledger lives.
+#      site.generated.json carries the proof timestamp, shown on the page.
+#
+#   2. PUBLIC STACK (after DevNet deployment): point UI_URL at the public
+#      deployment and let Render run the full gate per commit.
+#
+# Until path 2 exists, buildCommand must NOT run `node build.ts` on Render —
+# it would fail (correctly) with no ledger to read.
+
+services:
+  - type: web
+    name: provenance-site
+    runtime: static
+    buildCommand: "echo 'dist/ is prebuilt locally against the live stack — see render.yaml header'"
+    staticPublishPath: ./dist
+    pullRequestPreviewsEnabled: false
+    envVars:
+      - key: NODE_VERSION
+        value: "22.22.0"

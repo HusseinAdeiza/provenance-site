@@ -1,0 +1,194 @@
+/* ===========================================================================
+   HoldWatch — design tokens
+
+   Derived from studying two reference sites (see DESIGN_STUDY.md), not from
+   default aesthetics.
+
+   tryveir.xyz earns attention with: near-black ground, a SERIF headline with
+   italic emphasis against a sans-serif UI, a live number as the first line, and
+   generous negative space. That serif/sans contrast is the single biggest move
+   and it is the opposite of an all-sans page.
+
+   Rejected on purpose: purple/indigo gradients, neon glow, glassmorphism,
+   floating orbs, three identical centred cards with round icons.
+
+   Contrast: every text pair below is >= 4.5:1 on --ink (AA).
+     --ink #0A0B0E vs --paper #F4F2ED  -> 16.9:1
+     --dim  #9A968C vs --ink           ->  6.7:1   (measured)
+     --dimmer #8E8A80 vs --ink          ->  5.7:1   (measured)
+     --crit #FF6B6B vs --ink           ->  5.6:1
+     --warn #F0A93B vs --ink           ->  9.1:1
+     --ok   #5FD3A4 vs --ink           -> 10.2:1
+   =========================================================================== */
+
+:root {
+  --ink:      #0A0B0E;
+  --ink-2:    #12141A;
+  --ink-3:    #1B1E26;
+  --line:     #272B35;
+  --line-2:   #3A3F4C;
+
+  --paper:    #F4F2ED;
+  --dim:      #9A968C;
+  --dimmer:   #8E8A80;  /* 5.7:1 on ink, 5.4:1 on ink-2 — was #6E6A62 at 3.4:1,
+                                     which failed WCAG AA at 42 places on the page.
+                                     Measured, not assumed. */
+
+  --crit:     #FF6B6B;
+  --crit-dim: #4A2020;
+  --warn:     #F0A93B;
+  --ok:       #5FD3A4;
+
+  /* Serif for statements, sans for interface. The contrast is the point. */
+  --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua',
+           Georgia, 'Times New Roman', serif;
+  --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter,
+          Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+          'Liberation Mono', monospace;
+
+  --s1: 4px;  --s2: 8px;   --s3: 12px; --s4: 16px;
+  --s5: 24px; --s6: 32px;  --s7: 48px; --s8: 64px;
+  --s9: 96px; --s10: 128px;
+
+  --r: 4px;
+  --r-lg: 8px;
+  --measure: 1160px;
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'kern' 1;
+}
+
+::selection { background: var(--paper); color: var(--ink); }
+
+:focus-visible {
+  outline: 2px solid var(--paper);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── type ────────────────────────────────────────────────────────────── */
+h1, h2, h3 { margin: 0; font-weight: 400; letter-spacing: -0.02em; }
+
+h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.75rem, 1.6rem + 4.4vw, 5.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.028em;
+}
+h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.75rem, 1.2rem + 2.1vw, 2.75rem);
+  line-height: 1.12;
+}
+h3 { font-size: 1.0625rem; letter-spacing: -0.012em; }
+
+/* Emphasis by italic, not weight — keeps the weight scale narrow so headings
+   stay readable instead of shouting. Borrowed directly from the reference. */
+em { font-style: italic; }
+
+.lede {
+  font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.3125rem);
+  line-height: 1.55;
+  color: var(--dim);
+  max-width: 56ch;
+}
+.small { font-size: 0.9375rem; line-height: 1.6; color: var(--dim); }
+.tiny  { font-size: 0.8125rem; line-height: 1.5; color: var(--dimmer); }
+.mono  { font-family: var(--mono); font-size: 0.8125rem; }
+.num   { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum' 1; }
+
+.eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dimmer);
+  margin: 0;
+}
+
+/* ── layout ──────────────────────────────────────────────────────────── */
+.wrap { width: 100%; max-width: var(--measure); margin-inline: auto; padding-inline: var(--s5); }
+@media (max-width: 640px) { .wrap { padding-inline: var(--s4); } }
+
+.section { padding-block: var(--s9); }
+@media (max-width: 768px) { .section { padding-block: var(--s8); } }
+.section--tight { padding-block: var(--s8); }
+
+.hairline { height: 1px; background: var(--line); border: 0; margin: 0; }
+
+/* ── controls ────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s2);
+  padding: 13px 22px;
+  min-height: 46px;
+  border: 1px solid var(--paper);
+  border-radius: var(--r);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 140ms var(--ease), background 140ms var(--ease),
+              border-color 140ms var(--ease), color 140ms var(--ease);
+}
+.btn:hover { transform: translateY(-2px); background: #fff; }
+.btn:active { transform: translateY(0); }
+
+.btn--ghost { background: transparent; color: var(--paper); border-color: var(--line-2); }
+.btn--ghost:hover { background: var(--ink-2); border-color: var(--paper); }
+
+.btn:disabled, .btn[aria-disabled='true'] { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+.pulse {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--ok);
+  animation: breathe 2.6s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(95, 211, 164, 0.5); }
+  50%      { opacity: 0.65; box-shadow: 0 0 0 5px rgba(95, 211, 164, 0); }
+}
+
+.hero__live { flex-wrap: wrap; justify-content: center; }
+.hero__fresh { color: var(--dimmer); }
