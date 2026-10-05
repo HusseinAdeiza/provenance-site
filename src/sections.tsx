@@ -14,6 +14,7 @@ import { useState, type ReactElement } from 'react'
 import type { SiteData as LiveData } from './data/site'
 
 const REPO = 'https://github.com/HusseinAdeiza/provenance'
+const VIDEO = 'https://www.youtube.com/watch?v=_dGeWs6aE_o'
 
 /* ── nav ──────────────────────────────────────────────────────────────── */
 export function Nav() {
@@ -82,7 +83,8 @@ function Hero({ d }: { d: LiveData }) {
       </p>
 
       <div className="hero__cta">
-        <a className="btn" href="#invariant">See how the ledger refuses a lie</a>
+        <a className="btn" href={VIDEO}>▶ Watch the demo</a>
+        <a className="btn btn--ghost" href="#invariant">See how the ledger refuses a lie</a>
         <a className="btn btn--ghost" href={REPO}>Read the source</a>
       </div>
 
@@ -418,6 +420,8 @@ function Footer({ d }: { d: LiveData }) {
       </p>
       <p className="tiny">
         <a href={REPO}>github.com/HusseinAdeiza/provenance</a>
+        {' · '}
+        <a href={VIDEO}>demo video</a>
       </p>
     </footer>
   )
