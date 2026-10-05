@@ -32,6 +32,7 @@ export function Nav() {
           <a className="nav__link" href="#invariant">The rule</a>
           <a className="nav__link" href="#roles">Three views</a>
           <a className="nav__link" href="#ai">AI helper</a>
+          <a className="nav__link" href="#people">Evidence</a>
           <a className="nav__link" href="#proof">Proof</a>
           <a className="nav__link" href="#start">Start</a>
           <a className="nav__link" href="#faq">FAQ</a>
@@ -247,6 +248,79 @@ function AiLayer({ d }: { d: LiveData }) {
   )
 }
 
+/* ── the people who told us this is a real problem ────────────────────── */
+function People() {
+  // Four real interviews, Oct 2026. Their words, reproduced exactly — nothing
+  // embellished. A product that says "we won't make up a reason" cannot be
+  // built on made-up evidence, so the specifics stay messy because that is
+  // what makes them credible.
+  const cases: Array<[string, string, string, string]> = [
+    [
+      'A freelance 3D artist',
+      '$850 held for 9 days · Payoneer / Upwork',
+      'The app said "pending review… no further action is required." He split the payout into two smaller amounts to dodge scrutiny — and that flagged the account and reset the clock.',
+      'When an app says "no action required" while holding your money, you are sitting in a dark room. You don\u2019t know whether to keep quiet or start panicking.',
+    ],
+    [
+      'An agency owner paying 6 contractors',
+      '$2,400 held for 14 days · Flutterwave / Wise',
+      'The dashboard showed one line — "PENDING COMPLIANCE CLEARANCE" — with no clue which of the six people caused it. She paid three from her own savings. The batch cleared anyway, so they were paid twice.',
+      'The worst thing about managing a team is having to say "I don\u2019t know where the money is" when the dashboard just writes one cold word: PENDING.',
+    ],
+    [
+      'A payments engineer',
+      '$4,200 held for 6 days · Paystack / Stripe',
+      'The webhook literally returned reason: null while the docs promised detailed errors. His team auto-retried every 10 minutes — the fraud system read that as a stolen account and revoked every API key.',
+      'Building on payment APIs means accepting that when things break, the machine returns null. You are expected to debug silence.',
+    ],
+    [
+      'A contractor paid across borders',
+      '$1,650 held for 8 days · Upwork / Payoneer',
+      'The message was a placeholder with no date and no reason. He opened three support tickets to find a faster agent — the system merged them as duplicates and put him to the back of the queue.',
+      'The silence forces you into irrational behaviour. You start opening tickets and calling people who know less than you do, just to feel like you\u2019re doing something.',
+    ],
+  ]
+  return (
+    <section className="section wrap" id="people">
+      <p className="eyebrow">The evidence</p>
+      <h2>Four people. The hold wasn&rsquo;t the problem &mdash; the <em>silence</em> was.</h2>
+      <p className="lede" style={{ marginBottom: 'var(--s6)' }}>
+        We talked to four people who had money frozen, and asked what actually
+        happened. In every case the delay was bearable; not knowing <em>why</em> is
+        what made them act &mdash; and every action made it worse. Their words below,
+        unchanged.
+      </p>
+      <div className="people-grid">
+        {cases.map(([who, what, story, quote]) => (
+          <figure className="person" key={who}>
+            <figcaption>
+              <b>{who}</b>
+              <span className="tiny" style={{ display: 'block' }}>{what}</span>
+            </figcaption>
+            <p className="small">{story}</p>
+            <blockquote>&ldquo;{quote}&rdquo;</blockquote>
+          </figure>
+        ))}
+      </div>
+      <p className="small" style={{ marginTop: 'var(--s5)' }}>
+        Notice what none of them had: a way to tell <em>&ldquo;the system told us
+        nothing&rdquo;</em> from <em>&ldquo;there&rsquo;s a reason I haven&rsquo;t been shown.&rdquo;</em>{' '}
+        That single distinction is the whole product. The engineer&rsquo;s{' '}
+        <span className="mono">reason: null</span> is the same thing in code &mdash; and
+        it is the exact field a Provenance contract has no room for until both
+        sides establish one.
+      </p>
+      <p className="tiny" style={{ marginTop: 'var(--s4)', borderLeft: '2px solid var(--line)', paddingLeft: 'var(--s4)' }}>
+        Honest about the limits: four interviews show a pattern, not a market.
+        All four are in two corridors (Nigeria, Pakistan) and reachable through
+        our own network, which biases toward people willing to talk. They justify
+        the problem and the design; they do not size an opportunity. Full record,
+        verbatim, in <span className="mono">VALIDATION.md</span>.
+      </p>
+    </section>
+  )
+}
+
 /* ── proof ────────────────────────────────────────────────────────────── */
 function Proof({ d }: { d: LiveData }) {
   const suites: Array<[string, number, string]> = [
@@ -357,6 +431,7 @@ export function Sections({ d }: { d: LiveData }) {
       <Invariant />
       <Roles d={d} />
       <AiLayer d={d} />
+      <People />
       <Proof d={d} />
       <Start />
       <Faq />

@@ -314,3 +314,22 @@
 
 /* inline links in body copy — scoped so nav/brand/button links are untouched */
 .hero__token-note a, .small a, .faq dd a, .lede a { color: var(--ok); }
+
+/* ── the people / evidence section ───────────────────────────────────── */
+.people-grid { display: grid; gap: var(--s3); }
+@media (min-width: 860px) { .people-grid { grid-template-columns: 1fr 1fr; } }
+.person {
+  margin: 0; border: 1px solid var(--line); border-radius: var(--r-lg);
+  background: var(--ink-2); padding: var(--s5);
+  display: flex; flex-direction: column; gap: var(--s3);
+}
+.person figcaption b { font-family: var(--serif); font-size: 1.125rem; font-weight: 400; }
+.person figcaption .tiny { margin-top: 3px; color: var(--warn); }
+.person p.small { margin: 0; }
+.person blockquote {
+  margin: auto 0 0; padding: var(--s4) 0 0 var(--s4);
+  border-left: 2px solid var(--line-2);
+  font-family: var(--serif); font-style: italic;
+  font-size: 1.0625rem; line-height: 1.5; color: var(--paper);
+}
+.person .mono { color: var(--warn); }
